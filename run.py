@@ -2,6 +2,8 @@ import urllib, urllib.request
 import html_to_json
 import json
 import requests
+import os
+import util
 
 dry_run=True
 dry_run=False
@@ -47,9 +49,12 @@ def process(entry):
     else:
         file_pdf = 'pdf/'+a[0]+'.'+a[1]+'.pdf'
     print('saving to ',file_pdf)
-    if not dry_run:
-        response = requests.get(pdfURL)
-        open(file_pdf, "wb").write(response.content)
+    if os.path.isfile(file_pdf):
+        print(file_pdf,'already exist')        
+    elif not dry_run:
+        util.download(pdfURL,file_pdf)
+#        response = requests.get(pdfURL)
+#        open(file_pdf, "wb").write(response.content)
 #    x=x['link'][2]['_attributes']
     for k in x:
         break
@@ -60,7 +65,7 @@ def process(entry):
 
 def main():
     for i in range(100):
-        start=i*10+100
+        start=i*10+0
         url = f'http://export.arxiv.org/api/query?search_query=all:quantum&start={start}'
         get_list(url)
 
