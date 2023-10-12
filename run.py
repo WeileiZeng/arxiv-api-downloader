@@ -75,7 +75,7 @@ def process(entry, index=0):
 
 
 def main():
-    for i in range(100):
+    for i in range(10): #download 100 files in maximum
 #        start=i*10+200
         start=i*10 + args.start        
 #        print('index:',start)
