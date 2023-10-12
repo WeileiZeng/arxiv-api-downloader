@@ -37,7 +37,7 @@ def get_pdf_link(links):
         except:
             continue
 
-def get_list(url):
+def get_list(url, index=0):
 #    url = 'http://export.arxiv.org/api/query?search_query=all:quantum&start=0&max_results=5'
     data = urllib.request.urlopen(url)
     s=data.read()#.decode('utf-8')
@@ -49,14 +49,12 @@ def get_list(url):
     except: #no entry from this search
         return
     for entry in entries:
-        process(entry)
+        process(entry, index:=index+1)
 
-def process(entry):
+def process(entry, index=0):
     x=entry
-    print('----------------',x['id'][0]['_value'],'-------------')
+    print(index,'----------------',x['id'][0]['_value'],'-------------')
     print('title:',x['title'][0]['_value'].replace('\n',''))
-#    print('id:',x['id'][0]['_value'])
-#    print('link:',x['link'])
     pdfURL = get_pdf_link(x['link'])
     print('downloading pdfURL:',pdfURL, end=' ')
 
@@ -70,22 +68,18 @@ def process(entry):
         print(file_pdf,'already exist')        
     elif not dry_run:
         util.download(pdfURL,file_pdf)
-#        response = requests.get(pdfURL)
-#        open(file_pdf, "wb").write(response.content)
-#    x=x['link'][2]['_attributes']
-    for k in x:
-        break
-        print(k,':')
+#    for k in x:
 #        break
-        print(x[k])
+#        print(k,':')
+#        print(x[k])
 
 
 def main():
     for i in range(100):
 #        start=i*10+200
         start=i*10 + args.start        
-        print('index:',start)
+#        print('index:',start)
         url = f'http://export.arxiv.org/api/query?search_query=all:quantum&start={start}'
-        get_list(url)
+        get_list(url, index=start)
 
 main()
