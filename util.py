@@ -2,7 +2,7 @@ import requests
 from tqdm import tqdm
 import os
 
-def download(url: str, fname: str, chunk_size=1024):
+def download(url: str, fname: str, chunk_size=1024): #1024 for 1kB
     resp = requests.get(url, stream=True)
     total = int(resp.headers.get('content-length', 0))
     tmp_file='tmp.pdf'
@@ -11,7 +11,7 @@ def download(url: str, fname: str, chunk_size=1024):
         total=total,
         unit='iB',
         unit_scale=True,
-        unit_divisor=1024,
+            unit_divisor=1024,
     ) as bar:
         for data in resp.iter_content(chunk_size=chunk_size):
             size = file.write(data)
