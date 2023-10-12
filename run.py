@@ -13,8 +13,10 @@ dry_run=False
 import argparse
 
 parser = argparse.ArgumentParser(description='Hardworking arXiv downloader.')
-parser.add_argument('--start', type=int, help='an integer',default=0)
+parser.add_argument('--start', type=int, help='index in searching results',default=0)
+parser.add_argument('--keyword', type=str, help='for searching',default='quantum')
 args = parser.parse_args()
+initial_index=args.start
 #print(args.start)
 #exit()
 
@@ -53,7 +55,7 @@ def get_list(url, index=0):
 
 def process(entry, index=0):
     x=entry
-    print(index,'----------------',x['id'][0]['_value'],'-------------')
+    print(initial_index,'--->',index,'----------------',x['id'][0]['_value'],'-------------')
     print('title:',x['title'][0]['_value'].replace('\n',''))
     pdfURL = get_pdf_link(x['link'])
     print('downloading pdfURL:',pdfURL, end=' ')
@@ -75,11 +77,14 @@ def process(entry, index=0):
 
 
 def main():
-    for i in range(10): #download 100 files in maximum
+#    keyword='computing' #'quantum'
+    # keywords='quantum computing hamiltonian graph code tensor network encoding decode'
+    keyword=args.keyword
+    for i in range(100): #download 100 files in maximum
 #        start=i*10+200
         start=i*10 + args.start        
 #        print('index:',start)
-        url = f'http://export.arxiv.org/api/query?search_query=all:quantum&start={start}'
+        url = f'http://export.arxiv.org/api/query?search_query=all:{keyword}&start={start}'
         get_list(url, index=start)
 
 main()
