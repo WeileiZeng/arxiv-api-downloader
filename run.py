@@ -8,6 +8,20 @@ import util
 dry_run=True
 dry_run=False
 
+
+
+import argparse
+
+parser = argparse.ArgumentParser(description='Hardworking arXiv downloader.')
+parser.add_argument('--start', type=int, help='an integer',default=0)
+args = parser.parse_args()
+#print(args.start)
+#exit()
+
+
+#print(args.accumulate(args.integers))
+
+
 html_string = """<head>
     <title>Test site</title>
     <meta charset="UTF-8"></head>"""
@@ -30,7 +44,10 @@ def get_list(url):
     output_json = html_to_json.convert(s)
 
 #    print(output_json['feed'][0])
-    entries  = output_json['feed'][0]['entry']
+    try:
+        entries  = output_json['feed'][0]['entry']
+    except: #no entry from this search
+        return
     for entry in entries:
         process(entry)
 
@@ -65,7 +82,9 @@ def process(entry):
 
 def main():
     for i in range(100):
-        start=i*10+0
+#        start=i*10+200
+        start=i*10 + args.start        
+        print('index:',start)
         url = f'http://export.arxiv.org/api/query?search_query=all:quantum&start={start}'
         get_list(url)
 
