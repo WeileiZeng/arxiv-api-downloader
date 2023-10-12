@@ -5,7 +5,8 @@ import os
 def download(url: str, fname: str, chunk_size=1024): #1024 for 1kB
     resp = requests.get(url, stream=True)
     total = int(resp.headers.get('content-length', 0))
-    tmp_file='tmp.pdf'
+#    tmp_file='tmp.pdf'
+    tmp_file='cache/'+fname
     with open(tmp_file, 'wb') as file, tqdm(
         desc=fname,
         total=total,
