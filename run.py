@@ -41,7 +41,7 @@ def process(entry):
 #    print('id:',x['id'][0]['_value'])
 #    print('link:',x['link'])
     pdfURL = get_pdf_link(x['link'])
-    print('downloading pdfURL:',pdfURL)
+    print('downloading pdfURL:',pdfURL, end=' ')
 
     a=pdfURL.split('/')[-2:]
     if a[0]=='pdf':
