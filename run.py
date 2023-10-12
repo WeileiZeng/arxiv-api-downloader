@@ -81,8 +81,11 @@ def main():
     # keywords='quantum computing hamiltonian graph code tensor network encoding decode'
     keyword=args.keyword
     for i in range(100): #download 100 files in maximum
-#        start=i*10+200
-        start=i*10 + args.start        
+#        start=i*10+200        
+        start=i*10 + args.start
+        if start > 1000:
+            print('finish program. exit()')
+            return
 #        print('index:',start)
         url = f'http://export.arxiv.org/api/query?search_query=all:{keyword}&start={start}'
         get_list(url, index=start)
